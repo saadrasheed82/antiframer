@@ -43,10 +43,32 @@ export default function Page() {
   const [quote, setQuote] = useState(0)
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
     const els = document.querySelectorAll('[data-reveal]')
-    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')), { threshold: 0.12 })
+
+    if (reduceMotion.matches) {
+      els.forEach((el) => el.classList.add('is-visible'))
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
+      { threshold: 0.12 }
+    )
     els.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+
+    let raf = 0
+    const root = document.documentElement
+    const tick = () => {
+      const y = window.scrollY
+      const max = Math.max(1, root.scrollHeight - window.innerHeight)
+      root.style.setProperty('--scroll-y', String(y))
+      root.style.setProperty('--scroll-progress', String(Math.min(1, y / max)))
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    return () => { observer.disconnect(); cancelAnimationFrame(raf) }
   }, [])
 
   return <main>
@@ -58,7 +80,7 @@ export default function Page() {
     {menu && <div className="mobile-menu"><a href="#work" onClick={() => setMenu(false)}>Work</a><a href="#about" onClick={() => setMenu(false)}>About</a><a href="#services" onClick={() => setMenu(false)}>Services</a><a href="#contact" onClick={() => setMenu(false)}>Contact</a><p>Available for a good idea.</p></div>}
     {cart && <div className="cart-drawer"><button className="drawer-close" onClick={() => setCart(false)}>Close ×</button><div><span className="eyebrow">Shop</span><h2>Nothing here<br />yet.</h2><p>We are working on something worth taking home.</p></div></div>}
 
-    <section id="top" className="hero"><div className="hero-top"><span>Independent creative studio</span><span>Based everywhere / 2025</span></div><div className="hero-copy"><p className="eyebrow">Hello, we’re Anti Framer</p><h1>Ideas that<br /><em>move</em> people.</h1><a className="circle-arrow" href="#about" aria-label="Scroll to about">↘</a></div><div className="hero-visual"><div className="scanlines" /><img src={portrait} alt="Portrait on a vivid red background" /></div><div className="hero-bottom"><span>Scroll to explore</span><span className="hero-dot" /><span>Strategy / Design / Culture</span></div></section>
+    <section id="top" className="hero"><div className="hero-top" data-reveal="fade"><span>Independent creative studio</span><span>Based everywhere / 2025</span></div><div className="hero-copy"><p className="eyebrow" data-reveal data-reveal-delay="0">Hello, we’re Anti Framer</p><h1><span data-reveal data-reveal-delay="100" style={{display:'inline-block'}}>Ideas that</span><br /><em data-reveal data-reveal-delay="200" style={{display:'inline-block'}}>move</em><span data-reveal data-reveal-delay="300" style={{display:'inline-block'}}> people.</span></h1><a className="circle-arrow" href="#about" aria-label="Scroll to about" data-reveal data-reveal-delay="400">↘</a></div><div className="hero-visual"><div className="scanlines" /><img src={portrait} alt="Portrait on a vivid red background" /></div><div className="hero-bottom" data-reveal="fade"><span>Scroll to explore</span><span className="hero-dot" /><span>Strategy / Design / Culture</span></div></section>
 
     <section className="ticker" aria-label="Studio principles"><div className="ticker-track">MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span></div></section>
 
