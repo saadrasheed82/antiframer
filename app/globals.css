@@ -75,3 +75,7 @@ footer { min-height:280px; background:#04040b; color:#fff; padding:50px 28px 25p
 .project:hover .project-art { transform:translateY(-4px); }
 .quote-copy blockquote .word { display:inline-block; opacity:0; transform:translateY(10px); transition:opacity .4s ease, transform .4s ease; }
 .quote-copy blockquote .word.is-visible { opacity:1; transform:none; }
+.numbers-grid .infinity { display:inline-block; }
+[data-reveal].is-visible .infinity { animation:infinite-spin 1.2s cubic-bezier(.22,.61,.36,1) 1; }
+@keyframes infinite-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { [data-reveal].is-visible .infinity { animation:none; } }

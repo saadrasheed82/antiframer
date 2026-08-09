@@ -48,6 +48,10 @@ export default function Page() {
 
     if (reduceMotion.matches) {
       els.forEach((el) => el.classList.add('is-visible'))
+      document.querySelectorAll<HTMLElement>('[data-counter]').forEach((el) => {
+        const t = Number(el.dataset.target || '0')
+        el.textContent = String(t).padStart(2, '0')
+      })
       return
     }
 
@@ -57,18 +61,48 @@ export default function Page() {
     )
     els.forEach((el) => observer.observe(el))
 
+    const counters = new Map<HTMLElement, { target: number; start: number | null }>()
+    const armed = new Map<HTMLElement, MutationObserver>()
+    document.querySelectorAll<HTMLElement>('[data-counter]').forEach((el) => {
+      const parent = el.closest('[data-reveal]')
+      if (!parent) return
+      counters.set(el, { target: Number(el.dataset.target || '0'), start: null })
+      const arm = new MutationObserver(() => {
+        if (parent.classList.contains('is-visible')) {
+          counters.get(el)!.start = performance.now()
+          arm.disconnect()
+          armed.delete(el)
+        }
+      })
+      arm.observe(parent, { attributes: true, attributeFilter: ['class'] })
+      armed.set(el, arm)
+    })
+
     let raf = 0
     const root = document.documentElement
-    const tick = () => {
+    const tick = (now: number) => {
       const y = window.scrollY
       const max = Math.max(1, root.scrollHeight - window.innerHeight)
       root.style.setProperty('--scroll-y', String(y))
       root.style.setProperty('--scroll-progress', String(Math.min(1, y / max)))
+
+      counters.forEach(({ target, start }, el) => {
+        if (start === null) return
+        const t = Math.min(1, (now - start) / 900)
+        const eased = 1 - Math.pow(1 - t, 3)
+        el.textContent = String(Math.round(target * eased)).padStart(2, '0')
+        if (t >= 1) counters.delete(el)
+      })
+
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
 
-    return () => { observer.disconnect(); cancelAnimationFrame(raf) }
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(raf)
+      armed.forEach((arm) => arm.disconnect())
+    }
   }, [])
 
   return <main>
@@ -94,7 +128,7 @@ export default function Page() {
 
     <section className="quote-section"><div className="quote-image" data-reveal="slide-right"><img src={ceo} alt="Portrait of a creative leader" /></div><div className="quote-copy"><span className="eyebrow" data-reveal="slide-left" data-reveal-delay="0">A few nice words</span><blockquote key={quote}>{quotes[quote][0].split(/\s+/).map((w, i, arr) => <span key={i} className="word" style={{ transitionDelay: `${i * 30}ms` }}>{w}{i < arr.length - 1 ? ' ' : ''}</span>)}</blockquote><p className="quote-by" data-reveal="slide-left" data-reveal-delay="200">{quotes[quote][1]}<br /><span>{quotes[quote][2]}</span></p><div className="quote-controls" data-reveal="slide-left" data-reveal-delay="300"><button onClick={() => setQuote((quote + quotes.length - 1) % quotes.length)} aria-label="Previous quote">←</button><span>0{quote + 1} / 0{quotes.length}</span><button onClick={() => setQuote((quote + 1) % quotes.length)} aria-label="Next quote">→</button></div></div></section>
 
-    <section className="numbers" data-reveal><div className="section-label">04 / By the numbers</div><div className="numbers-grid"><div><strong>17</strong><span>Brands launched</span></div><div><strong>09</strong><span>Countries reached</span></div><div><strong>∞</strong><span>Curiosity levels</span></div></div></section>
+    <section className="numbers"><div className="section-label" data-reveal data-reveal-delay="0">04 / By the numbers</div><div className="numbers-grid"><div data-reveal data-reveal-delay="0"><strong data-counter data-target="17">00</strong><span>Brands launched</span></div><div data-reveal data-reveal-delay="100"><strong data-counter data-target="9">00</strong><span>Countries reached</span></div><div data-reveal data-reveal-delay="200"><strong className="infinity">∞</strong><span>Curiosity levels</span></div></div></section>
 
     <section className="faq" data-reveal><div className="section-label">05 / Frequently asked</div><div className="faq-content"><h2>Questions,<br /><span>answered.</span></h2><div className="faq-list">{faqs.map(([q, a], index) => <div className="faq-item" key={q}><button onClick={() => setFaq(faq === index ? null : index)}><span>{q}</span><b>{faq === index ? '−' : '+'}</b></button>{faq === index && <p>{a}</p>}</div>)}</div></div></section>
 
