@@ -44,7 +44,7 @@ export default function Page() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const els = document.querySelectorAll('[data-reveal]')
+    const els = document.querySelectorAll('[data-reveal], .word')
 
     if (reduceMotion.matches) {
       els.forEach((el) => el.classList.add('is-visible'))
@@ -92,7 +92,7 @@ export default function Page() {
 
     <section id="services" className="services" data-reveal><div className="section-label">03 / What we do</div><div className="services-main"><h2>Good work<br /><span>starts with</span><br />a good question.</h2><div className="service-list">{services.map(([num, title, body], index) => <div className={`service-item ${service === index ? 'active' : ''}`} key={title}><button onClick={() => setService(service === index ? -1 : index)}><span>{num}</span><strong>{title}</strong><b>{service === index ? '−' : '+'}</b></button>{service === index && <p>{body}</p>}</div>)}</div></div></section>
 
-    <section className="quote-section"><div className="quote-image"><img src={ceo} alt="Portrait of a creative leader" /></div><div className="quote-copy"><span className="eyebrow">A few nice words</span><blockquote>{quotes[quote][0]}</blockquote><p className="quote-by">{quotes[quote][1]}<br /><span>{quotes[quote][2]}</span></p><div className="quote-controls"><button onClick={() => setQuote((quote + quotes.length - 1) % quotes.length)} aria-label="Previous quote">←</button><span>0{quote + 1} / 0{quotes.length}</span><button onClick={() => setQuote((quote + 1) % quotes.length)} aria-label="Next quote">→</button></div></div></section>
+    <section className="quote-section"><div className="quote-image" data-reveal="slide-right"><img src={ceo} alt="Portrait of a creative leader" /></div><div className="quote-copy"><span className="eyebrow" data-reveal="slide-left" data-reveal-delay="0">A few nice words</span><blockquote key={quote}>{quotes[quote][0].split(/\s+/).map((w, i, arr) => <span key={i} className="word" style={{ transitionDelay: `${i * 30}ms` }}>{w}{i < arr.length - 1 ? ' ' : ''}</span>)}</blockquote><p className="quote-by" data-reveal="slide-left" data-reveal-delay="200">{quotes[quote][1]}<br /><span>{quotes[quote][2]}</span></p><div className="quote-controls" data-reveal="slide-left" data-reveal-delay="300"><button onClick={() => setQuote((quote + quotes.length - 1) % quotes.length)} aria-label="Previous quote">←</button><span>0{quote + 1} / 0{quotes.length}</span><button onClick={() => setQuote((quote + 1) % quotes.length)} aria-label="Next quote">→</button></div></div></section>
 
     <section className="numbers" data-reveal><div className="section-label">04 / By the numbers</div><div className="numbers-grid"><div><strong>17</strong><span>Brands launched</span></div><div><strong>09</strong><span>Countries reached</span></div><div><strong>∞</strong><span>Curiosity levels</span></div></div></section>
 
