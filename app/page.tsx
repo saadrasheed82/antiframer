@@ -24,14 +24,14 @@ const services = [
   ['04', 'Campaigns & content', 'Big, brave ideas that give your audience something worth talking about.'],
 ]
 const faqs = [
-  ['What does Echook’s Studio do?', 'We are an independent creative studio for ambitious brands. We bring strategy, design, technology, and storytelling together under one roof.'],
+  ['What does Anti Framer do?', 'We are an independent creative studio for ambitious brands. We bring strategy, design, technology, and storytelling together under one roof.'],
   ['How do you work with clients?', 'As a small senior team, we work closely with a limited number of partners at a time. The result is fast thinking, focused craft, and no layers between the idea and the work.'],
   ['Where are you based?', 'Everywhere, mostly. We are a remote-first studio with collaborators around the world.'],
   ['Can we work together?', 'Probably. Tell us what you are building and we will get back to you with a point of view.'],
 ]
 const quotes = [
   ['“They understood the ambition immediately and made the whole thing feel easy. The work is bold, useful, and completely us.”', 'Maya Chen', 'Founder, Assembly'],
-  ['“Echook’s Studio are the rare creative partner who can zoom out to the big idea and still obsess over the smallest detail.”', 'David Okafor', 'Brand Director, Good Company'],
+  ['“Anti Framer are the rare creative partner who can zoom out to the big idea and still obsess over the smallest detail.”', 'David Okafor', 'Brand Director, Good Company'],
   ['“The result did more than look good. It changed how our team talks about the brand, and how our customers see it.”', 'Sofia Williams', 'CEO, Common Ground'],
 ]
 
@@ -51,14 +51,14 @@ export default function Page() {
 
   return <main>
     <header className="nav">
-      <a className="brand" href="#top" aria-label="Echook’s Studio home">Echook’s<br />Studio®</a>
+      <a className="brand" href="#top" aria-label="Anti Framer home">Anti<br />Framer®</a>
       <nav className="nav-links"><a href="#work">Work</a><a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
       <div className="nav-actions"><button className="cart-button" onClick={() => setCart(true)} aria-label="Open cart">Bag <span>0</span></button><button className="menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu}>{menu ? 'Close' : 'Menu'}</button></div>
     </header>
     {menu && <div className="mobile-menu"><a href="#work" onClick={() => setMenu(false)}>Work</a><a href="#about" onClick={() => setMenu(false)}>About</a><a href="#services" onClick={() => setMenu(false)}>Services</a><a href="#contact" onClick={() => setMenu(false)}>Contact</a><p>Available for a good idea.</p></div>}
     {cart && <div className="cart-drawer"><button className="drawer-close" onClick={() => setCart(false)}>Close ×</button><div><span className="eyebrow">Shop</span><h2>Nothing here<br />yet.</h2><p>We are working on something worth taking home.</p></div></div>}
 
-    <section id="top" className="hero"><div className="hero-top"><span>Independent creative studio</span><span>Based everywhere / 2025</span></div><div className="hero-copy"><p className="eyebrow">Hello, we’re Echook’s Studio</p><h1>Ideas that<br /><em>move</em> people.</h1><a className="circle-arrow" href="#about" aria-label="Scroll to about">↘</a></div><div className="hero-visual"><div className="scanlines" /><img src={portrait} alt="Portrait on a vivid red background" /></div><div className="hero-bottom"><span>Scroll to explore</span><span className="hero-dot" /><span>Strategy / Design / Culture</span></div></section>
+    <section id="top" className="hero"><div className="hero-top"><span>Independent creative studio</span><span>Based everywhere / 2025</span></div><div className="hero-copy"><p className="eyebrow">Hello, we’re Anti Framer</p><h1>Ideas that<br /><em>move</em> people.</h1><a className="circle-arrow" href="#about" aria-label="Scroll to about">↘</a></div><div className="hero-visual"><div className="scanlines" /><img src={portrait} alt="Portrait on a vivid red background" /></div><div className="hero-bottom"><span>Scroll to explore</span><span className="hero-dot" /><span>Strategy / Design / Culture</span></div></section>
 
     <section className="ticker" aria-label="Studio principles"><div className="ticker-track">MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span> MAKE IT MATTER <span>✳</span></div></section>
 
@@ -76,7 +76,7 @@ export default function Page() {
 
     <section className="faq reveal"><div className="section-label">05 / Frequently asked</div><div className="faq-content"><h2>Questions,<br /><span>answered.</span></h2><div className="faq-list">{faqs.map(([q, a], index) => <div className="faq-item" key={q}><button onClick={() => setFaq(faq === index ? null : index)}><span>{q}</span><b>{faq === index ? '−' : '+'}</b></button>{faq === index && <p>{a}</p>}</div>)}</div></div></section>
 
-    <section id="contact" className="cta reveal"><div className="cta-pattern" /><span className="eyebrow">Have a good idea?</span><h2>Let’s make<br /><em>something</em><br />matter.</h2><a className="circle-arrow dark" href="mailto:hello@echooks.studio" aria-label="Email Echook’s Studio">↗</a><div className="cta-bottom"><span>hello@echooks.studio</span><span>Available for 2025</span></div></section>
-    <footer><div className="footer-brand">Echook’s<br />Studio®</div><div className="footer-links"><a href="#top">Back to top ↑</a><a href="#contact">Instagram ↗</a><a href="#contact">LinkedIn ↗</a></div><small>© 2025 Echook’s Studio. All rights reserved.</small></footer>
+    <section id="contact" className="cta reveal"><div className="cta-pattern" /><span className="eyebrow">Have a good idea?</span><h2>Let’s make<br /><em>something</em><br />matter.</h2><a className="circle-arrow dark" href="mailto:hello@antiframer.studio" aria-label="Email Anti Framer">↗</a><div className="cta-bottom"><span>hello@antiframer.studio</span><span>Available for 2025</span></div></section>
+    <footer><div className="footer-brand">Anti<br />Framer®</div><div className="footer-links"><a href="#top">Back to top ↑</a><a href="#contact">Instagram ↗</a><a href="#contact">LinkedIn ↗</a></div><small>© 2025 Anti Framer. All rights reserved.</small></footer>
   </main>
 }

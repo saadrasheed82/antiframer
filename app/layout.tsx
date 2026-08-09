@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Echook’s Studio — Ideas that move people',
-  description: 'Echook’s Studio is an independent creative studio for brands with a point of view.',
+  title: 'Anti Framer — Ideas that move people',
+  description: 'Anti Framer is an independent creative studio for brands with a point of view.',
   generator: 'v0.app',
 }
 
