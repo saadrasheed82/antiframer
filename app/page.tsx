@@ -1,6 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import CircularGallery from '@/components/CircularGallery'
+
+const galleryItems = [
+  { image: 'https://picsum.photos/seed/studio-1/1000/800', text: 'Common Ground' },
+  { image: 'https://picsum.photos/seed/studio-2/1000/800', text: 'Good for Nothing' },
+  { image: 'https://picsum.photos/seed/studio-3/1000/800', text: 'Move Your Mind' },
+  { image: 'https://picsum.photos/seed/studio-4/1000/800', text: 'Assembly' },
+  { image: 'https://picsum.photos/seed/studio-5/1000/800', text: 'North Star' },
+  { image: 'https://picsum.photos/seed/studio-6/1000/800', text: 'Bright Flag' },
+]
 
 const portrait = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/69d931e1d30c806ac265cfd8_Frame%202085666965-p-1600.png'
 const ceo = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/6842f2166000b66353ad9dc9_Group%204.avif'
@@ -55,6 +65,8 @@ export default function Page() {
     <section id="about" className="manifesto reveal"><div className="section-label">01 / A point of view</div><div className="manifesto-content"><h2>We make brands feel <span className="highlight">alive.</span></h2><p>We are a creative studio for the restless, the curious, and the ones who know that the safest idea is rarely the right one. We turn a clear point of view into work people can feel.</p><a className="text-link" href="#contact">More about us <span>↗</span></a></div><img className="rocket" src={rocket} alt="Animated rocket" /></section>
 
     <section id="work" className="work reveal"><div className="section-head"><div className="section-label">02 / Selected work</div><p>A few things we’ve made<br />with good people.</p></div><div className="project-grid"><article className="project project-one"><div className="project-art art-sun"><span>COMMON<br />GROUND</span></div><div className="project-meta"><h3>Common Ground</h3><span>Brand identity / Digital</span></div></article><article className="project project-two"><div className="project-art art-black"><span>GOOD<br /><i>for</i><br />NOTHING</span></div><div className="project-meta"><h3>Good for Nothing</h3><span>Campaign / Culture</span></div></article><article className="project project-three"><div className="project-art art-lime"><span>MOVE<br />YOUR<br />MIND</span><img src={golf} alt="Animated golf ball" /></div><div className="project-meta"><h3>Move Your Mind</h3><span>Strategy / Experience</span></div></article></div><a className="outline-button" href="#contact">See all work <span>↗</span></a></section>
+
+    <section className="gallery-section reveal"><div className="section-head"><div className="section-label">02.5 / In motion</div><p>The work, mid-flight —<br />drag or scroll through it.</p></div><div className="gallery-frame"><CircularGallery items={galleryItems} bend={3} textColor="#111111" borderRadius={0.05} scrollSpeed={2.5} scrollEase={0.04} /></div></section>
 
     <section id="services" className="services reveal"><div className="section-label">03 / What we do</div><div className="services-main"><h2>Good work<br /><span>starts with</span><br />a good question.</h2><div className="service-list">{services.map(([num, title, body], index) => <div className={`service-item ${service === index ? 'active' : ''}`} key={title}><button onClick={() => setService(service === index ? -1 : index)}><span>{num}</span><strong>{title}</strong><b>{service === index ? '−' : '+'}</b></button>{service === index && <p>{body}</p>}</div>)}</div></div></section>
 
