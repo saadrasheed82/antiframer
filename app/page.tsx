@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import CircularGallery from '@/components/CircularGallery'
 
 const galleryItems = [
-  { image: 'https://picsum.photos/seed/studio-1/1000/800', text: 'Mirror Muse' },
-  { image: 'https://picsum.photos/seed/studio-2/1000/800', text: 'Ghost Writer' },
-  { image: 'https://picsum.photos/seed/studio-3/1000/800', text: 'Dream Rotary' },
-  { image: 'https://picsum.photos/seed/studio-4/1000/800', text: 'Latent Assembly' },
-  { image: 'https://picsum.photos/seed/studio-5/1000/800', text: 'North Signal' },
-  { image: 'https://picsum.photos/seed/studio-6/1000/800', text: 'Bright Model' },
+  { image: '/gallery/1.jpg', text: 'Mirror Muse' },
+  { image: '/gallery/2.jpg', text: 'Ghost Writer' },
+  { image: '/gallery/3.jpg', text: 'Dream Rotary' },
+  { image: '/gallery/4.png', text: 'Latent Assembly' },
+  { image: '/gallery/5.png', text: 'North Signal' },
+  { image: '/gallery/6.png', text: 'Bright Model' },
 ]
 
 const portrait = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/69d931e1d30c806ac265cfd8_Frame%202085666965-p-1600.png'
