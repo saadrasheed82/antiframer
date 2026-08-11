@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CircularGallery from '@/components/CircularGallery'
 
 const galleryItems = [
@@ -35,12 +35,113 @@ const quotes = [
   ['“They didn’t just give us an AI campaign. They changed how our whole team thinks about what’s possible.”', 'Sofia Williams', 'CEO, Mirror Muse'],
 ]
 
+const DEMO_BASE = 'https://qunmardnapopzywrqonb.supabase.co/storage/v1/object/public/demo%20vides'
+const demoVideos: { src: string; label: string; orient: 'landscape' | 'portrait'; hero?: boolean }[] = [
+  { src: `${DEMO_BASE}/sample7.mp4`,     label: 'Film 01', orient: 'landscape' },
+  { src: `${DEMO_BASE}/sample1.mp4`,     label: 'Film 02', orient: 'portrait'  },
+  { src: `${DEMO_BASE}/sample4.mp4`,     label: 'Film 03', orient: 'portrait'  },
+  { src: `${DEMO_BASE}/sample6.mp4`,     label: 'Film 04', orient: 'portrait'  },
+  { src: `${DEMO_BASE}/sample16.mp4`,    label: 'Film 05', orient: 'portrait'  },
+  { src: `${DEMO_BASE}/Demo1%20(2).mp4`, label: 'Film 06', orient: 'landscape' },
+  { src: `${DEMO_BASE}/sample13.mp4`,    label: 'Film 07', orient: 'portrait'  },
+  { src: `${DEMO_BASE}/Demo2%20(3).mp4`, label: 'Film 08', orient: 'landscape', hero: true },
+]
+
+function DemoVideo({ src, label, orient, hero, delay, isSolo, onSolo }: {
+  src: string
+  label: string
+  orient: 'landscape' | 'portrait'
+  hero?: boolean
+  delay: number
+  isSolo: boolean
+  onSolo: (el: HTMLVideoElement | null) => void
+}) {
+  const ref = useRef<HTMLVideoElement>(null)
+  const wrapRef = useRef<HTMLElement>(null)
+  const [aspect, setAspect] = useState<'landscape' | 'portrait'>(orient)
+
+  useEffect(() => {
+    const v = ref.current
+    const wrap = wrapRef.current
+    if (!v || !wrap) return
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          v.play().catch(() => {})
+        } else {
+          v.pause()
+        }
+      })
+    }, { threshold: 0.2 })
+    io.observe(v)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isSolo && ref.current && !ref.current.muted) {
+      ref.current.muted = true
+    }
+  }, [isSolo])
+
+  const toggleSound = () => {
+    const v = ref.current
+    if (!v) return
+    if (v.muted) {
+      v.muted = false
+      v.play().catch(() => {})
+      onSolo(v)
+    } else {
+      v.muted = true
+      onSolo(null)
+    }
+  }
+
+  return (
+    <figure
+      ref={wrapRef}
+      className={`demo-cell${hero ? ' demo-cell--hero' : ''}`}
+      data-orient={aspect}
+      data-sound={isSolo || undefined}
+      data-reveal
+      data-reveal-delay={delay}
+      onClick={toggleSound}
+      role="button"
+      aria-label={`${label} — click to ${isSolo ? 'mute' : 'unmute'}`}
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSound() } }}
+    >
+      <div className="demo-frame">
+        <video
+          ref={ref}
+          src={src}
+          muted
+          autoPlay
+          loop
+          playsInline
+          preload="metadata"
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget
+            setAspect(v.videoWidth >= v.videoHeight ? 'landscape' : 'portrait')
+          }}
+        />
+        <span className="demo-sound-badge" aria-hidden="true">Sound</span>
+      </div>
+      <figcaption className="demo-meta">
+        <span>{label}</span>
+        <span>{aspect === 'landscape' ? '16:9' : '9:16'}</span>
+      </figcaption>
+    </figure>
+  )
+}
+
 export default function Page() {
   const [menu, setMenu] = useState(false)
   const [cart, setCart] = useState(false)
   const [service, setService] = useState(0)
   const [faq, setFaq] = useState<number | null>(0)
   const [quote, setQuote] = useState(0)
+  const [soloVideo, setSoloVideo] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     const words = document.querySelectorAll('.quote-copy blockquote .word:not(.is-visible)')
@@ -139,7 +240,9 @@ export default function Page() {
 
     <section className="numbers"><div className="section-label" data-reveal data-reveal-delay="0">04 / By the numbers</div><div className="numbers-grid"><div data-reveal data-reveal-delay="0"><strong data-counter data-target="17">00</strong><span>AI brands launched</span></div><div data-reveal data-reveal-delay="100"><strong data-counter data-target="9">00</strong><span>Countries reached</span></div><div data-reveal data-reveal-delay="200"><strong className="infinity">∞</strong><span>Curiosity levels</span></div></div></section>
 
-    <section className="faq"><div className="section-label" data-reveal data-reveal-delay="0">05 / Frequently asked</div><div className="faq-content"><h2 data-reveal data-reveal-delay="100">Questions,<br /><span>answered.</span></h2><div className="faq-list" data-reveal data-reveal-delay="100">{faqs.map(([q, a], index) => <div className={`faq-item ${faq === index ? 'active' : ''}`} key={q}><button onClick={() => setFaq(faq === index ? null : index)} aria-expanded={faq === index}><span>{q}</span><b>{faq === index ? '−' : '+'}</b></button><p className="faq-answer">{a}</p></div>)}</div></div></section>
+    <section className="demo-reel"><div className="section-head"><div className="section-label" data-reveal data-reveal-delay="0">05 / Demo reel</div><p data-reveal data-reveal-delay="100">Proof, playing.<br />Tap any film for sound.</p></div><div className="demo-grid">{demoVideos.map((v, i) => <DemoVideo key={v.src} src={v.src} label={v.label} orient={v.orient} hero={v.hero} delay={(i % 3) * 100} isSolo={soloVideo !== null && soloVideo?.src === v.src} onSolo={setSoloVideo} />)}</div></section>
+
+    <section className="faq"><div className="section-label" data-reveal data-reveal-delay="0">06 / Frequently asked</div><div className="faq-content"><h2 data-reveal data-reveal-delay="100">Questions,<br /><span>answered.</span></h2><div className="faq-list" data-reveal data-reveal-delay="100">{faqs.map(([q, a], index) => <div className={`faq-item ${faq === index ? 'active' : ''}`} key={q}><button onClick={() => setFaq(faq === index ? null : index)} aria-expanded={faq === index}><span>{q}</span><b>{faq === index ? '−' : '+'}</b></button><p className="faq-answer">{a}</p></div>)}</div></div></section>
 
     <section id="contact" className="cta" data-reveal="scale"><div className="cta-pattern" /><span className="eyebrow" data-reveal data-reveal-delay="0">Have a good idea?</span><h2><span data-reveal data-reveal-delay="0" style={{display:'inline-block'}}>Let’s make</span><br /><em data-reveal data-reveal-delay="120" style={{display:'inline-block'}}>something</em><br /><span data-reveal data-reveal-delay="240" style={{display:'inline-block'}}>matter.</span></h2><a className="circle-arrow dark" href="mailto:hello@antiframer.studio" aria-label="Email Anti Framer" data-reveal data-reveal-delay="400">↗</a><div className="cta-bottom" data-reveal="fade" data-reveal-delay="400"><span>hello@antiframer.studio</span><span>Available for 2025</span></div></section>
     <footer><div className="footer-brand">Anti<br />Framer®</div><div className="footer-links"><a href="#top">Back to top ↑</a><a href="#contact">Instagram ↗</a><a href="#contact">LinkedIn ↗</a></div><small>© 2025 Anti Framer. All rights reserved.</small></footer>
