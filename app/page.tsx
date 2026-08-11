@@ -116,7 +116,7 @@ export default function Page() {
 
   return <main>
     <header className="nav">
-      <a className="brand" href="#top" aria-label="Anti Framer home">Anti<br />Framer®</a>
+      <a className="brand logo-brand" href="#top" aria-label="Echoks home"><img src="/echoks-logo.png" alt="Echoks logo" /></a>
       <nav className="nav-links"><a href="#work">Work</a><a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
       <div className="nav-actions"><button className="cart-button" onClick={() => setCart(true)} aria-label="Open cart">Bag <span>0</span></button><button className="menu-button" onClick={() => setMenu(!menu)} aria-expanded={menu}>{menu ? 'Close' : 'Menu'}</button></div>
     </header>
