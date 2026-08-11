@@ -11,10 +11,10 @@
 html { scroll-behavior:smooth; background:var(--background); }
 body { margin:0; background:var(--background); color:var(--foreground); font-family:Inter, sans-serif; font-size:14px; line-height:1.45; }
 a { color:inherit; text-decoration:none; } button { color:inherit; font:inherit; background:none; border:0; cursor:pointer; }
-.nav { height:76px; padding:18px 28px; display:flex; align-items:flex-start; justify-content:space-between; position:absolute; z-index:10; width:100%; color:#fff; mix-blend-mode:normal; }
+.nav { height:104px; padding:28px; display:flex; align-items:center; justify-content:space-between; position:absolute; z-index:10; width:100%; color:#fff; mix-blend-mode:normal; }
 .brand,.footer-brand { font-weight:800; line-height:.86; letter-spacing:-.08em; font-size:20px; }
 .logo-brand { display:block; }
-.logo-brand img { height:56px; width:103px; object-fit:contain; display:block; }
+.logo-brand img { height:88px; width:161px; object-fit:contain; display:block; }
 .nav-links { display:flex; gap:34px; padding-top:3px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
 .nav-actions { display:flex; gap:20px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
 .cart-button span { display:inline-flex; justify-content:center; align-items:center; width:18px; height:18px; margin-left:4px; border:1px solid currentColor; border-radius:50%; font-size:10px; }
