@@ -5,7 +5,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 const SITE_NAME = 'Anti Framer'
 const DESCRIPTION = 'Strategy, craft, and behind-the-scenes from an AI creative studio.'
 
-export const revalidate = 300
+// Force dynamic so `next build` doesn't try to hit Supabase when the service
+// role key hasn't been pasted yet. ISR can be re-enabled post-provision by
+// exporting `revalidate = 300` instead.
+export const dynamic = 'force-dynamic'
 
 function escapeXml(s: string): string {
   return s

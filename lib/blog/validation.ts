@@ -12,7 +12,17 @@ export const postInputSchema = z.object({
   cover_image_url: z.url().startsWith('https://').optional().nullable().or(z.literal('')),
   tags: z.array(tagSlug).max(10).optional(),
   status: z.enum(['draft', 'published']).optional().default('draft'),
-  published_at: z.iso.datetime({ offset: true }).optional(),
+  // NOTE: z.iso.datetime() / z.string().datetime() cause a Turbopack worker
+  // TDZ error (ReferenceError: Cannot access 'fl' before initialization) when
+  // Next.js 16 collects page data at build time. Working around by regex-match
+  // on ISO-8601 instead. See https://github.com/vercel/next.js issues for
+  // "Cannot access * before initialization" + zod reports.
+  published_at: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})$/, {
+      message: 'published_at must be an ISO 8601 datetime',
+    })
+    .optional(),
   author_name: z.string().min(1).max(100).optional(),
 })
 
