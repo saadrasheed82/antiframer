@@ -105,6 +105,9 @@ importers:
       '@vitest/ui':
         specifier: ^4.1.10
         version: 4.1.10(vitest@4.1.10)
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       postcss:
         specifier: ^8.5
         version: 8.5.6

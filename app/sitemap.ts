@@ -1,9 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { listPublished, listTagsWithCounts } from '@/lib/blog/posts'
 
-// Force dynamic so `next build` doesn't try to hit Supabase when the service
-// role key hasn't been pasted yet. Sitemap stays fresh at request time.
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
