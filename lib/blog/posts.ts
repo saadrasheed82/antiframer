@@ -1,4 +1,4 @@
-import { createServiceClient } from '../supabase/server'
+import { createServiceClient } from '@/lib/supabase/server'
 import type { Post, PostWithTags, Tag, PostStatus } from './types'
 import { deriveSlug, computeReadingMinutes, type PostInput, type PostUpdate } from './validation'
 
