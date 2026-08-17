@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'Anti Framer — AI Creative Studio',
   description: 'Anti Framer is an independent AI creative studio. Strategy, generative design, and intelligent products for ambitious brands.',
   generator: 'v0.app',
+  alternates: {
+    types: { 'application/rss+xml': '/blog/rss.xml' },
+  },
 }
 
 export const viewport: Viewport = {
