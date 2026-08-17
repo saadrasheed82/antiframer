@@ -8,22 +8,22 @@ In-house blog backed by Supabase, exposed through three surfaces:
 - **Admin UI** at `/admin/blog` (Supabase Auth, server actions)
 - **Public JSON API** at `/api/posts` and `/api/posts/[slug]` for programmatic publishing from CI, Claude agents, or external tooling
 
-### One-time setup (PENDING_DASHBOARD_LOOKUP)
+### One-time setup (SUPABASE_SERVICE_ROLE_KEY still pending)
 
-The blog won't run until you fill in two secrets in `.env.local`. Right now they are placeholders:
+The blog won't run until you fill in `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`. Right now it's a placeholder:
 
 ```
 SUPABASE_SERVICE_ROLE_KEY=PENDING_DASHBOARD_LOOKUP
-BLOG_API_KEY=PENDING_DASHBOARD_LOOKUP
 ```
 
-Where to get them:
+`BLOG_API_KEY` was already generated for you and lives in `.env.local` (a 64-char hex string). Use it as the `Authorization: Bearer <value>` for every POST/PATCH/DELETE below. If you rotate it, update `.env.local` and any external callers together.
+
+Where to get the missing key:
 
 1. **`SUPABASE_SERVICE_ROLE_KEY`** — open the Supabase Dashboard → your project → **Project Settings → API keys → "service_role" secret**. This bypasses RLS, so it must stay server-only (it is already only referenced from server components / route handlers).
-2. **`BLOG_API_KEY`** — you choose this value. Generate a long random string (e.g. `openssl rand -base64 48`) and use the same value in your CI / integration that POSTs to `/api/posts`.
-3. While you're in the dashboard, make sure the `posts`, `tags`, `post_tags` tables exist (migrations in Task 2 of this worktree) and that a Supabase Auth user exists for admin login — create one from **Authentication → Users → Add user** if you haven't yet.
+2. While you're in the dashboard, make sure the `posts`, `tags`, `post_tags` tables exist (migrations in Task 2 of this worktree) and that a Supabase Auth user exists for admin login — create one from **Authentication → Users → Add user** if you haven't yet. Then grant admin: `insert into public.profiles (id, is_admin) values ('<user-uuid>', true) on conflict (id) do update set is_admin = true;`
 
-Until both placeholders are replaced, `pnpm build` will still succeed (the RSS feed, sitemap, and blog list are `force-dynamic`), but the site will return errors at request time.
+Until the placeholder is replaced, `pnpm build` will still succeed (the RSS feed, sitemap, and blog list are `force-dynamic`), but the site will return errors at request time.
 
 ### Public REST API
 

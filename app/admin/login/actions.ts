@@ -7,7 +7,9 @@ import { createServerClient } from '@supabase/ssr'
 export async function login(formData: FormData) {
   const email = String(formData.get('email') ?? '')
   const password = String(formData.get('password') ?? '')
-  const next = String(formData.get('next') ?? '/admin/blog')
+  const rawNext = String(formData.get('next') ?? '/admin/blog')
+  // Same-origin path only; rejects absolute URLs, protocol-relative, and non-admin redirects.
+  const next = rawNext.startsWith('/admin') && !rawNext.startsWith('//') ? rawNext : '/admin/blog'
 
   const cookieStore = await cookies()
   const supabase = createServerClient(
