@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { ZodError } from 'zod'
 import { postInputSchema, postUpdateSchema } from '@/lib/blog/validation'
 import { createPost, updatePost, archivePost, SlugConflictError } from '@/lib/blog/posts'
 import type { PostWithTags } from '@/lib/blog/types'
@@ -11,18 +12,27 @@ type SaveResult = { error: string } | undefined
 export async function savePostAction(_prev: unknown, formData: FormData): Promise<SaveResult> {
   const existingSlug = String(formData.get('existing_slug') ?? '') || undefined
 
-  const input = postInputSchema.parse({
-    title: formData.get('title'),
-    slug: (formData.get('slug') as string) || undefined,
-    excerpt: (formData.get('excerpt') as string) || undefined,
-    content_md: formData.get('content_md'),
-    cover_image_url: (formData.get('cover_image_url') as string) || undefined,
-    tags: String(formData.get('tags') ?? '')
-      .split(',')
-      .map(s => s.trim().toLowerCase())
-      .filter(Boolean),
-    status: (formData.get('status') as 'draft' | 'published') ?? 'draft',
-  })
+  let input
+  try {
+    input = postInputSchema.parse({
+      title: formData.get('title'),
+      slug: (formData.get('slug') as string) || undefined,
+      excerpt: (formData.get('excerpt') as string) || undefined,
+      content_md: formData.get('content_md'),
+      cover_image_url: (formData.get('cover_image_url') as string) || undefined,
+      tags: String(formData.get('tags') ?? '')
+        .split(',')
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean),
+      status: (formData.get('status') as 'draft' | 'published') ?? 'draft',
+    })
+  } catch (err) {
+    if (err instanceof ZodError) {
+      const first = err.issues[0]
+      return { error: `${first.path.join('.')}: ${first.message}` }
+    }
+    throw err
+  }
 
   let post: PostWithTags | null
   try {
@@ -31,7 +41,7 @@ export async function savePostAction(_prev: unknown, formData: FormData): Promis
       : await createPost(input)
   } catch (err) {
     if (err instanceof SlugConflictError) return { error: err.message }
-    if (err && typeof err === 'object' && 'issues' in err) return { error: 'Invalid input — check all fields' }
+    if (err instanceof ZodError) return { error: 'Invalid input — check all fields' }
     throw err
   }
 
