@@ -1,7 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import CircularGallery from '@/components/CircularGallery'
+import dynamic from 'next/dynamic'
+import type { ComponentType } from 'react'
+
+const CircularGalleryDynamic = dynamic(
+  () => import('@/components/CircularGallery').then((mod: { default: ComponentType<{ items?: Array<{ image: string; text: string }>; bend?: number; textColor?: string; borderRadius?: number; scrollSpeed?: number; scrollEase?: number }> }) => mod.default),
+  { ssr: false, loading: () => <div className="gallery-frame" style={{ height: 520, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: 14, letterSpacing: '.1em', textTransform: 'uppercase' }}>Loading gallery…</div> }
+)
 
 const galleryItems = [
   { image: '/gallery/1.jpg', text: 'Mirror Muse' },
@@ -12,10 +18,10 @@ const galleryItems = [
   { image: '/gallery/6.png', text: 'Bright Model' },
 ]
 
-const portrait = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/69d931e1d30c806ac265cfd8_Frame%202085666965-p-1600.png'
-const ceo = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/6842f2166000b66353ad9dc9_Group%204.avif'
-const rocket = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/682cce8a5b6d1ba1380422e0_giphy.gif'
-const golf = 'https://cdn.prod.website-files.com/682ade213ae3efdb0cc737cd/682cf5d7d994371fae1d1367_giphy.gif'
+const portrait = '/hero-portrait.png'
+const ceo = '/ceo.avif'
+const rocket = '/rocket.gif'
+const golf = '/golf.gif'
 
 const services = [
   ['01', 'AI brand systems', 'Strategy first. We define the sharp idea behind your brand, then build an AI-powered system that keeps it consistent everywhere.'],
@@ -232,7 +238,7 @@ export default function Page() {
 
     <section id="work" className="work" data-reveal><div className="section-head"><div className="section-label">02 / Selected work</div><p>A few things we’ve made<br />with good people.</p></div><div className="project-grid"><article className="project project-one" data-reveal data-reveal-delay="0"><div className="project-art art-sun"><span>MIRROR<br />MUSE</span></div><div className="project-meta"><h3>Mirror Muse</h3><span>AI brand system / Generative</span></div></article><article className="project project-two" data-reveal data-reveal-delay="100"><div className="project-art art-black"><span>GHOST<br /><i>writer</i></span></div><div className="project-meta"><h3>Ghost Writer</h3><span>AI campaign / Culture</span></div></article><article className="project project-three" data-reveal data-reveal-delay="200"><div className="project-art art-lime"><span>DREAM<br />ROTARY</span><img src={golf} alt="Animated golf ball" /></div><div className="project-meta"><h3>Dream Rotary</h3><span>AI film / Experience</span></div></article></div><a className="outline-button" href="#contact">See all work <span>↗</span></a></section>
 
-    <section className="gallery-section" data-reveal="scale"><div className="section-head"><div className="section-label">02.5 / In motion</div><p>The work, mid-flight —<br />drag or scroll through it.</p></div><div className="gallery-frame"><CircularGallery items={galleryItems} bend={3} textColor="#111111" borderRadius={0.05} scrollSpeed={2.5} scrollEase={0.04} /></div></section>
+    <section className="gallery-section" data-reveal="scale"><div className="section-head"><div className="section-label">02.5 / In motion</div><p>The work, mid-flight —<br />drag or scroll through it.</p></div><div className="gallery-frame"><CircularGalleryDynamic items={galleryItems} bend={3} textColor="#111111" borderRadius={0.05} scrollSpeed={2.5} scrollEase={0.04} /></div></section>
 
     <section id="services" className="services"><div className="section-label" data-reveal data-reveal-delay="0">03 / What we do</div><div className="services-main"><h2 data-reveal data-reveal-delay="100">Good prompts<br /><span>start with</span><br />a good question.</h2><div className="service-list" data-reveal data-reveal-delay="100">{services.map(([num, title, body], index) => <div className={`service-item ${service === index ? 'active' : ''}`} key={title}><button onClick={() => setService(service === index ? -1 : index)} aria-expanded={service === index}><span>{num}</span><strong>{title}</strong><b>{service === index ? '−' : '+'}</b></button><p className="service-body">{body}</p></div>)}</div></div></section>
 

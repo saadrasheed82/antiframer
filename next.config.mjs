@@ -5,7 +5,12 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    remotePatterns: [{ protocol: 'https', hostname: '**' }],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.prod.website-files.com',
+      },
+    ],
   },
 }
 

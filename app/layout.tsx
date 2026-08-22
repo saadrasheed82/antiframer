@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   alternates: {
     types: { 'application/rss+xml': '/blog/rss.xml' },
   },
+  openGraph: {
+    images: '/hero-portrait-og.png',
+  },
 }
 
 export const viewport: Viewport = {
@@ -17,5 +20,12 @@ export const viewport: Viewport = {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className="bg-background"><body className="antialiased">{children}{process.env.NODE_ENV === 'production' && <Analytics />}</body></html>
+  return (
+    <html lang="en" className="bg-background">
+      <head>
+        <link rel="preload" as="image" href="/hero-portrait.png" />
+      </head>
+      <body className="antialiased">{children}{process.env.NODE_ENV === 'production' && <Analytics />}</body>
+    </html>
+  )
 }
