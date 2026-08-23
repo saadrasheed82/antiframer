@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import GeminiVoiceAssistant from '@/components/GeminiVoiceAssistant'
 
 export const metadata: Metadata = {
   title: 'Antiframer — AI-Powered Creative Studio',
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <link rel="preload" as="image" href="/hero-portrait.png" />
       </head>
-      <body className="antialiased">{children}{process.env.NODE_ENV === 'production' && <Analytics />}</body>
+      <body className="antialiased">{children}{process.env.NODE_ENV === 'production' && <Analytics />}<GeminiVoiceAssistant /></body>
     </html>
   )
 }
