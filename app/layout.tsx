@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Anti Framer — AI Creative Studio',
-  description: 'Anti Framer is an independent AI creative studio. Strategy, generative design, and intelligent products for ambitious brands.',
+  title: 'Antiframer — AI-Powered Creative Studio',
+  description: 'Antiframer is a Karachi-based AI creative agency creating scroll-stopping videos, avatars, and images for Pakistani businesses — fast, bold, and affordable.',
   generator: 'v0.app',
   alternates: {
     types: { 'application/rss+xml': '/blog/rss.xml' },
