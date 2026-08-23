@@ -1,7 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-import GeminiVoiceAssistant from '@/components/GeminiVoiceAssistant'
 
 export const metadata: Metadata = {
   title: 'Antiframer — AI-Powered Creative Studio',
@@ -25,8 +24,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className="bg-background">
       <head>
         <link rel="preload" as="image" href="/hero-portrait.png" />
+        <script
+          src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+          async
+          type="text/javascript"
+        />
       </head>
-      <body className="antialiased">{children}{process.env.NODE_ENV === 'production' && <Analytics />}<GeminiVoiceAssistant /></body>
+      <body className="antialiased">
+        {children}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-expect-error ElevenLabs custom web component */}
+        <elevenlabs-convai agent-id="agent_4501m0qhgw9efp7tq3d93c727f4b" />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+      </body>
     </html>
   )
 }
