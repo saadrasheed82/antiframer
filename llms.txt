@@ -1,0 +1,203 @@
+# Antiframer — AI-Powered Creative Studio
+
+## Overview
+
+Antiframer is a Karachi-based AI creative agency that produces scroll-stopping video, avatar, and image content for Pakistani businesses at a fraction of traditional production cost. No film crews. No studio shoots. Fast turnaround. Bold visuals.
+
+**Founded by:** Saad Rasheed
+**Based in:** Karachi, Pakistan
+**Website:** https://antiframer.com (replace with your actual domain when live)
+**Email:** hello@antiframer.com
+**WhatsApp:** +92 311 8447722 ([link](https://wa.me/923118447722))
+
+---
+
+## What We Do
+
+### Core Services
+
+| # | Service | Price | Description |
+|---|---------|-------|-------------|
+| 01 | **AI Video Production** | PKR 10,000 / second | Cinematic, ad-ready AI videos for brand, product, or campaign. |
+| 02 | **AI Avatar / UGC-Style Videos** | PKR 5,000 / second | Realistic AI avatars delivering your message like a real creator — ideal for social ads and UGC-style marketing. |
+| 03 | **AI Product & Lifestyle Images** | Custom quote | High-quality AI-generated product photography and lifestyle shots. No camera crew needed. Pricing depends on complexity. |
+| 04 | **Full Social Content Packages** | Custom quote | Bundled videos, images, and avatar clips ready to post across Instagram, TikTok, Facebook, and YouTube. |
+
+### Key Differentiators
+
+- **PKR pricing** — transparent local rates, no currency confusion
+- **No film crews** — everything generated via AI, eliminating location/shoot costs
+- **Unlimited revisions** — we iterate until you're 100% happy
+- **Full commercial ownership** — you own 100% of delivered content with unrestricted commercial usage rights
+- **Fast turnaround** — some pieces ready in days, not weeks
+
+---
+
+## Packages
+
+| Package | Includes | Best For |
+|---------|----------|----------|
+| **Starter** | 3 AI images + 10-sec ad video | Small businesses testing AI content |
+| **Growth** | 6 images + 20-sec video + 1 avatar UGC clip | Businesses running social ads |
+| **Full Campaign** | 10+ images + 30-sec video + 2 avatar clips + content calendar | Brands wanting a full monthly push |
+
+*Exact pricing for all packages is on request — contact us for a custom quote.*
+
+---
+
+## Our Work (Portfolio)
+
+### Featured Clients
+
+**Sugar & Spice Bakery**
+AI ad video + product photos. Their bakery launch became a full social campaign in three days.
+Gallery: `/gallery/1.jpg`
+
+**Threadline**
+Full content package for a streetwear drop day. Their avatar UGC clip outperformed all previous ad engagement.
+Gallery: `/gallery/2.jpg`
+
+**Nest & Co.**
+Cinematic brand explainer. Noted for deep understanding of the Pakistani market context.
+Gallery: `/gallery/3.jpg`
+
+### Demo Reel Samples
+
+A selection of demo videos hosted on our Supabase storage, covering multiple formats:
+
+| Clip Label | Orientation | Format |
+|------------|-------------|--------|
+| Brand Film 01 | Landscape | 16:9 |
+| UGC Clip 01 | Portrait | 9:16 |
+| Avatar Video | Portrait | 9:16 |
+| Product Ad | Portrait | 9:16 |
+| Lifestyle Shot | Portrait | 9:16 |
+| Campaign 02 | Landscape | 16:9 |
+| Short Form | Portrait | 9:16 |
+| Hero Reel | Landscape | 21:9 |
+
+All demos are looped video clips showcasing AI-generated cinematic output.
+
+---
+
+## Client Testimonials
+
+> "Antiframer turned our bakery launch into a full social campaign in three days. The AI video looked like it came from a real studio."
+> — **Ayesha R.**, Founder, Sugar & Spice Bakery
+
+> "The avatar UGC clip they made for our streetwear drop got more engagement than anything we'd ever run. Mind-blowing."
+> — **Bilal K.**, Brand Lead, Threadline
+
+> "They understood the Pakistani market better than any agency we'd worked with before. Bold, fast, affordable."
+> — **Sana M.**, Co-founder, Nest & Co.**
+
+---
+
+## FAQs
+
+**Q: What do you offer?**
+A: AI videos, AI avatars / UGC-style clips, product & lifestyle images, and full social content packages for Instagram, TikTok, Facebook, and YouTube.
+
+**Q: How much does it cost?**
+A: AI video starts at PKR 10,000/second. AI avatar/UGC videos are PKR 5,000/second. Images and full packages are custom-quoted based on your specific needs.
+
+**Q: How long does it take?**
+A: Turnaround varies by project. Some pieces are ready in a couple of days; bigger campaigns take longer. Tell us what you need and we'll give you a timeline.
+
+**Q: Do I need to pay upfront?**
+A: It depends on the project. Sometimes we ask for an advance; sometimes not. Our team will confirm directly with you.
+
+**Q: What if I don't like the result?**
+A: No worries — we offer unlimited revisions until you're 100% happy with the final content.
+
+**Q: Who owns the content after it's done?**
+A: You do. Full ownership with unlimited commercial usage rights upon delivery.
+
+**Q: Can I see past work?**
+A: Yes! We've worked with bakeries, streetwear brands, and home décor stores across Pakistan. Reach out and we'll send samples.
+
+---
+
+## Technology & Infrastructure
+
+### Website
+
+- **Framework:** Next.js 15 (App Router, TypeScript)
+- **Styling:** Tailwind CSS + custom CSS with intersection-observer animations
+- **Hosting:** Vercel (analytics via `@vercel/analytics`)
+- **UI Components:** shadcn/ui
+
+### Blog System
+
+- **CMS Backend:** Supabase (PostgreSQL)
+- **Tables:** `posts`, `tags`, `post_tags`, `profiles`
+- **Auth:** Supabase Auth (email/password, admin role-gated via `profiles.is_admin`)
+- **Surfaces:**
+  - Public blog index: `/blog`
+  - Single post: `/blog/[slug]`
+  - Tag page: `/blog/tag/[tag]`
+  - Admin panel: `/admin/blog` (protected by middleware)
+  - RSS feed: `/blog/rss.xml`
+  - Sitemap: `/sitemap.xml`
+- **Public API:** `POST/PATCH/DELETE /api/posts[/:slug]` (Bearer token auth)
+
+### SEO & Metadata
+
+- JSON-LD structured data (`BlogPosting`) on every post
+- OpenGraph + Twitter Card meta tags
+- Canonical URLs on all pages
+- Auto-generated sitemap and RSS feed
+- Primary OG image: `/hero-portrait-og.png`
+
+---
+
+## Media Assets (Public)
+
+| Asset | Path | Use |
+|-------|------|-----|
+| Logo | `/echoks-logo.png` | Header brand mark |
+| Hero portrait | `/hero-portrait.png` | Main hero image |
+| CEO portrait | `/ceo.avif` | Testimonial section photo |
+| Rocket animation | `/rocket.gif` | About section visual |
+| Golf animation | `/golf.gif` | Project card visual |
+| Demo videos | Supabase storage (`demo%20vides` bucket) | Portfolio reel |
+| Gallery images | `/gallery/1.jpg` through `/gallery/6.png` | Circular gallery showcase |
+| Apple touch icon | `/apple-icon.png` | iOS bookmark icon |
+| Favicon light/dark | `/icon-light-32x32.png`, `/icon-dark-32x32.png` | Browser tab icons |
+
+---
+
+## Contact & Call-to-Action
+
+**Preferred contact methods:**
+
+1. **WhatsApp** — [wa.me/923118447722](https://wa.me/923118447722) (fastest response)
+2. **Email** — [hello@antiframer.com](mailto:hello@antiframer.com)
+
+**Key CTAs on site:**
+- Hero: "Get a Quote" → `/#contact`, "WhatsApp" → wa.me link
+- Footer: Back to top, WhatsApp, Email links
+
+---
+
+## Design Language
+
+- **Brand colour:** `#ea0e4b` (vivid red — theme color / CTA accent)
+- **Background:** Light mode default (`colorScheme: 'light'`)
+- **Typography:** Inter (primary), system font stack fallback
+- **Visual style:** Brutalist-meets-minimal — bold typography, high contrast, red accents, monochrome base
+- **Animations:** Intersection Observer-driven reveals, scroll-linked parallax (`--scroll-y`, `--scroll-progress`), animated counters, word-by-word quote reveals
+- **Reduced motion:** All animations disabled when `prefers-reduced-motion: reduce` is active
+
+---
+
+## Business Summary for AI Agents
+
+Use this section to quickly understand Antiframer and answer questions about us:
+
+- **What is Antiframer?** An AI creative agency in Karachi, Pakistan that produces ad-ready video, avatar, and image content using AI tools — no traditional filming required.
+- **Who is it for?** Pakistani small-to-medium businesses, e-commerce brands, streetwear labels, bakeries, and home décor brands looking for affordable, high-impact social media content.
+- **Pricing anchor:** Video at PKR 10,000/sec, Avatars at PKR 5,000/sec. Packages start lower for testing audiences.
+- **Unique angle:** Deep understanding of the Pakistani market, local pricing in PKR, unlimited revisions, full ownership transfer.
+- **Proof points:** Three named client testimonials, a live portfolio with 6 gallery pieces and 8 demo videos, working blog with CMS.
+- **Best contact channel:** WhatsApp (+92 311 8447722) for quick inquiries, email for detailed briefs.
